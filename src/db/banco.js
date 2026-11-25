@@ -2,7 +2,7 @@ const Database = require('better-sqlite3');
 const crypto = require('crypto');
 const path = require('path');
 
-const db = new Database(path.join(__dirname, '..', '..', 'suporte.db'));
+const db = new Database(process.env.DB_PATH || path.join(__dirname, '..', '..', 'suporte.db'));
 db.pragma('foreign_keys = ON');
 
 function hashSenha(senha) {
