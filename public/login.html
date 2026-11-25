@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Suporte TI</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 320px; margin: 80px auto; }
+    input, button { width: 100%; padding: 8px; margin: 6px 0; box-sizing: border-box; }
+    #erro { color: crimson; }
+  </style>
+</head>
+<body>
+  <h2>Suporte TI</h2>
+  <input id="login" placeholder="Login">
+  <input id="senha" type="password" placeholder="Senha">
+  <button onclick="entrar()">Entrar</button>
+  <p id="erro"></p>
+
+  <script>
+    async function entrar() {
+      const r = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          login: document.getElementById('login').value,
+          senha: document.getElementById('senha').value
+        })
+      });
+      const dados = await r.json();
+      if (!r.ok) {
+        document.getElementById('erro').textContent = dados.erro;
+        return;
+      }
+      sessionStorage.setItem('usuario', JSON.stringify(dados));
+      location.href = 'chamados.html';
+    }
+  </script>
+</body>
+</html>
